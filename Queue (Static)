@@ -1,0 +1,192 @@
+/*-Static Queue-
+.
+. Comment in another time...
+.
+.
+.
+.*/
+
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+
+using namespace std;
+
+#define MAX_LETRA 51
+#define LIMITE 100
+
+struct PRODUTOS {
+    int id;
+    char tipo[MAX_LETRA];
+    char marca[MAX_LETRA];
+    char modelo[MAX_LETRA];
+    float valor;
+
+};
+
+char opc;
+
+void Cadastro(PRODUTOS fila[], int &cont, int &id, char tipo[], char marca[], char modelo[], float &valor, int &uPosicao);
+void Enfileirar(PRODUTOS fila[], int &cont, int &id, char tipo[], char marca[], char modelo[], float &valor, int &uPosicao);
+void ExibirPrimeiro(PRODUTOS fila[], int pPosicao, int uPosicao);
+void ExibirEspecifico(PRODUTOS fila[], int uPosicao);
+void ExibirCompleto(PRODUTOS fila[], int uPosicao);
+void Sair();
+
+int main() {
+
+    setlocale(LC_ALL, "Portuguese");
+
+    PRODUTOS FILA[LIMITE];
+
+    int pPosicao = 0, uPosicao = 0, cont = 0, id;
+    char tipo[MAX_LETRA], marca[MAX_LETRA], modelo[MAX_LETRA];
+    float valor;
+
+    do
+    {
+        system("CLS");
+        cout << "1 = CADASTRAR\n";
+        cout << "2 = EXIBIR O PRIMEIRO\n";
+        cout << "3 = EXIBIR UM ESPECÍFICO\n";
+        cout << "4 = EXIBIR TUDO\n";
+        cout << "5 = SAIR\n\n";
+        cout << "Opção: ";
+        cin >> opc;
+
+        switch (opc)
+        {
+        case '1':
+            system("CLS");
+            Cadastro(FILA, cont, id, tipo, marca, modelo, valor, uPosicao);
+            break;
+        case '2':
+            ExibirPrimeiro(FILA, pPosicao, uPosicao);
+            break;
+        case '3':
+            system("CLS");
+             ExibirEspecifico(FILA, uPosicao);
+            break;
+        case '4':
+            system("CLS");
+            ExibirCompleto(FILA, uPosicao);
+            break;
+        case '5':
+            system("CLS");
+            Sair();
+            break;
+        default:
+            system("CLS");
+            cout << "\n\n\tERRO: Opção inválida...\n\n";
+            system("PAUSE");
+            break;
+        }
+    }while (opc);
+
+}
+
+void Cadastro(PRODUTOS fila[], int &cont, int &id, char tipo[], char marca[], char modelo[], float &valor, int &uPosicao)
+{
+        do{
+            cont++;
+            cout << "CLIENTE: " << cont << endl;
+            cout << "CÓDIGO: ";
+            cin >> id;
+            cin.ignore();
+            cout << "TIPO: ";
+            cin.getline(tipo, MAX_LETRA);
+            cout << "MARCA:";
+            cin.getline(marca, MAX_LETRA);
+            cout << "MODELO:";
+            cin.getline(modelo, MAX_LETRA);
+            cout << "PREÇO:";
+            cin >> valor;
+            cin.ignore();
+
+        Enfileirar(fila, cont, id, tipo, marca, modelo, valor, uPosicao);
+
+            system("CLS");
+            cout << "1 = CONTINUAR CADASTRANDO\n";
+            cout << "2 = SAIR\n\n";
+            cout << "Número: ";
+            cin >> opc;
+            system("CLS");
+        }while (opc == '1');
+}
+
+void Enfileirar(PRODUTOS fila[], int &cont, int &id, char tipo[], char marca[], char modelo[], float &valor, int &uPosicao)
+{
+        if (uPosicao == LIMITE - 1){
+        cout << "Cheio...\n\n";
+    }
+    else {
+        fila[uPosicao].id = id;
+        strcpy(fila[uPosicao].tipo, tipo);
+        strcpy(fila[uPosicao].marca, marca);
+        strcpy(fila[uPosicao].modelo, modelo);
+        fila[uPosicao].valor = valor;
+
+        uPosicao++;
+    }
+}
+
+void ExibirPrimeiro(PRODUTOS fila[], int pPosicao, int uPosicao)
+{
+    if (uPosicao == 0){
+        cout << "Vazio...\n\n";
+    }
+    else{
+        system("CLS");
+        cout << "CÓDIGO: " << fila[pPosicao].id << endl;
+        cout << "PRODUTO: " << fila[pPosicao].tipo << endl;
+        cout << "MARCA : " << fila[pPosicao].marca << endl;
+        cout << "MODELO: " << fila[pPosicao].modelo << endl;
+        cout << "VALOR: " << fila[pPosicao].valor << endl << endl;
+    }
+    system("PAUSE");
+}
+
+void ExibirEspecifico(PRODUTOS fila[], int uPosicao)
+{
+       int pes;
+        cout << "PESQUISAR PELO NÚMERO DO CLIENTE: ";
+        cin >> pes;
+        pes--;
+
+    if (uPosicao == 0){
+        cout << "VAZIO...\n\n";
+    }
+    if (fila[pes].id == 0){
+        system("CLS");
+        cout << "CLIENTE NÃO ENCONTRADO...\n\n";
+    }
+    else{
+        system("CLS");
+        cout << "CÓDIGO: " << fila[pes].id << endl;
+        cout << "PRODUTO: " << fila[pes].tipo << endl;
+        cout << "MARCA : " << fila[pes].marca << endl;
+        cout << "MODELO: " << fila[pes].modelo << endl;
+        cout << "VALOR: " << fila[pes].valor << endl << endl;
+    }
+    system("PAUSE");
+}
+
+void ExibirCompleto(PRODUTOS fila[], int uPosicao)
+{
+    if (uPosicao == 0){
+        cerr << "VAZIO...\n\n";
+    }
+    for(int i = 0; i < uPosicao; i++ ){
+        cout << "CÓDIGO: " << fila[i].id << endl;
+        cout << "PRODUTO: " << fila[i].tipo << endl;
+        cout << "MARCA : " << fila[i].marca << endl;
+        cout << "MODELO: " << fila[i].modelo << endl;
+        cout << "VALOR: " << fila[i].valor << endl << endl;
+    }
+    system("PAUSE");
+}
+
+void Sair()
+{
+    exit(0);
+}
