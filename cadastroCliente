@@ -1,0 +1,38 @@
+private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        String nome = txtNome.getText();
+        String aparelho = txtAparelho.getText();
+        String endereco = txtEndereco.getText();
+        String modelo = txtModelo.getText();
+        String valor = txtValor.getText();
+        
+        LocalDateTime dataAtual = LocalDateTime.now();
+        // Cria separação de linha
+        String separarLinha = System.getProperty("line.separator");
+        /* 
+         ** LEMBRETE: Sistem de salvar o .txt com o nome do cliente é provisório
+         ** futuramente os clientes serão salvos por IDs únicos
+        */  
+        
+        // Salva todos os campos escritos
+        try (FileWriter gravar = new FileWriter("C:\\Clientes\\" + nome + ".txt")) 
+        {
+            gravar.write("Nome: " + nome + separarLinha); 
+            gravar.write("Data: " + dataAtual + separarLinha);
+            gravar.write("Aparelho: " + aparelho + separarLinha);
+            gravar.write("Modelo: " + modelo + separarLinha);
+            gravar.write("Endereço: " + endereco + separarLinha);
+            gravar.write("Valor: " + valor + separarLinha);
+            gravar.close();
+            
+        } catch (IOException ex) 
+        {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        // Limpar todos os campos
+        txtNome.setText("");
+        txtAparelho.setText("");
+        txtEndereco.setText("");
+        txtValor.setText("");
+
+    }          
